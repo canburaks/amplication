@@ -1,7 +1,7 @@
 {
   "name": "amplication",
   "scripts": {
-    "build": "lerna run --ignore server-template --ignore admin-template --sort --include-dependencies build",
+    "build": "nx run-many --target=build --exclude=admin-template",
     "test": "lerna run --parallel --ignore server-template --ignore admin-template test",
     "test:e2e": "lerna run --parallel test:e2e",
     "check-format": "lerna run --parallel check-format",
@@ -9,15 +9,15 @@
     "lint": "lerna run --parallel --ignore server-template --ignore admin-template lint",
     "bootstrap": "lerna bootstrap",
     "clean": "lerna clean --yes",
-    "prisma:generate": "lerna run --scope @amplication/prisma-db prisma:generate",
+    "prisma:generate": "nx prisma:generate @amplication/prisma-db",
     "migrate:save": "lerna run --scope @amplication/prisma-db migrate:save",
     "migrate:up": "lerna run --scope @amplication/prisma-db migrate:up",
     "migrate:rollback": "lerna run --scope @amplication/prisma-db migrate:rollback",
-    "generate-graphql-schema": "lerna run --scope @amplication/server generate-graphql-schema",
-    "check-graphql-schema": "lerna run --scope @amplication/server check-graphql-schema",
+    "generate-graphql-schema": "nx check-graphql-schema @amplication/server",
+    "check-graphql-schema": "nx check-graphql-schema @amplication/server",
     "generate-graphql-code": "graphql-codegen",
     "generate": "run-s generate-graphql-schema generate-graphql-code",
-    "build-storybook": "lerna run build-storybook",
+    "build-storybook": "nx build-storybook @amplication/design-system",
     "generate-test-data-service": "lerna run --scope @amplication/data-service-generator generate-test-data-service",
     "setup:dev": "ts-node ./script/setup.ts",
     "docker:dev": "docker-compose -f docker-compose.dev.yml up -d"
