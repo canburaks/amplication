@@ -13,7 +13,7 @@
     "migrate:save": "nx migrate:save @amplication/prisma-db",
     "migrate:up": "nx migrate:up @amplication/prisma-db",
     "migrate:rollback": "nx migrate:rollback @amplication/prisma-db",
-    "generate-graphql-schema": "nx check-graphql-schema @amplication/server",
+    "generate-graphql-schema": "nx generate-graphql-schema @amplication/server",
     "check-graphql-schema": "nx check-graphql-schema @amplication/server",
     "generate-graphql-code": "graphql-codegen",
     "generate": "run-s generate-graphql-schema generate-graphql-code",
@@ -40,7 +40,8 @@
     "npm-run-all": "4.1.5",
     "nx": "14.5.1",
     "prettier": "2.0.5",
-    "ts-jest": "27.0.5"
+    "ts-jest": "27.0.5",
+    "ts-node": "^10.9.1"
   },
   "engines": {
     "node": "^16.3.0 || ^14.0.0",
