@@ -1,0 +1,113 @@
+datasource postgres {
+  provider = "postgresql"
+  url      = env("DB_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  createdAt        DateTime        @default(now())
+  email            String          @unique
+  emailValidated   Boolean?
+  firstName        String?
+  gender           EnumUserGender?
+  id               String          @id @default(uuid())
+  isActive         Boolean?
+  isDeleted        Boolean?
+  isSuperuser      Boolean?
+  lastName         String?
+  password         String
+  phone            String?
+  phoneCountryCode String?
+  roles            Json
+  updatedAt        DateTime        @updatedAt
+  userGroups       UserGroup[]
+  username         String          @unique
+}
+
+model UserGroup {
+  createdAt DateTime @default(now())
+  group     Group?   @relation(fields: [groupId], references: [id])
+  groupId   String?
+  id        String   @id @default(uuid())
+  updatedAt DateTime @updatedAt
+  user      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+}
+
+model Group {
+  createdAt        DateTime        @default(now())
+  graduationType   GraduationType? @relation(fields: [graduationTypeId], references: [id])
+  graduationTypeId String?
+  id               String          @id @default(uuid())
+  institute        Institute?      @relation(fields: [instituteId], references: [id])
+  instituteId      String?
+  isActive         Boolean?
+  marketProfile    MArketProfile?  @relation(fields: [marketProfileId], references: [id])
+  marketProfileId  String?
+  name             String
+  updatedAt        DateTime        @updatedAt
+  userGroups       UserGroup[]
+  year             Int
+}
+
+model Institute {
+  city       String?
+  country    Country? @relation(fields: [countryId], references: [id])
+  countryId  String?
+  createdAt  DateTime @default(now())
+  groups     Group[]
+  id         String   @id @default(uuid())
+  internalId String
+  isPrivate  Boolean?
+  location   String?
+  name       String?
+  street     String?
+  updatedAt  DateTime @updatedAt
+  zip        String?
+}
+
+model GraduationType {
+  createdAt      DateTime        @default(now())
+  groups         Group[]
+  id             String          @id @default(uuid())
+  instituteTypes InstituteType[]
+  name           String?
+  updatedAt      DateTime        @updatedAt
+}
+
+model InstituteType {
+  country         Country?         @relation(fields: [countryId], references: [id])
+  countryId       String?
+  createdAt       DateTime         @default(now())
+  graduationTypes GraduationType[]
+  id              String           @id @default(uuid())
+  updatedAt       DateTime         @updatedAt
+}
+
+model Country {
+  countryCode    String?
+  createdAt      DateTime        @default(now())
+  id             String          @id @default(uuid())
+  institutes     Institute[]
+  instituteTypes InstituteType[]
+  name           String?
+  phoneCode      Int?
+  updatedAt      DateTime        @updatedAt
+}
+
+model MArketProfile {
+  createdAt DateTime @default(now())
+  groups    Group[]
+  id        String   @id @default(uuid())
+  name      String?
+  updatedAt DateTime @updatedAt
+}
+
+enum EnumUserGender {
+  MALE
+  FEMALE
+  OTHER
+}
